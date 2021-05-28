@@ -1,15 +1,24 @@
 /* 
 ** This follows example 3.6 on page 41 
 ** of Greene, Econometric Analysis
+**
+** Note per footnote on Table 3.1 
+** solutions are slightly different than
+** those printed based on raw data
 */
 
 // Load the relevant data
 invest_data = loadd(__FILE_DIR $+ "TableF3-1-mod.csv", "date($Year, '%Y') + Real Investment + Constant + Trend + RealGNP + Interest Rate + Inflation Rate");
 
-// Estimate the model
+// Define independent variables
 X = invest_data[., "Trend" "RealGNP" "Interest Rate" "Inflation Rate"];
+
+// Define dependent variable
 y = invest_data[., "Real Investment"];
 
+// Estimate linear model using
+// least squares and store
+// results
 struct olsmtOut oOut;
 oOut = olsmt("", y, X);
 
@@ -21,11 +30,10 @@ simple_cor = corrx(Y~X);
 ** correlations using equation 3-22
 */
 
-// Find t-stat using 
-// olsmt results
+// Find t-stat using olsmt results
 t_stats = oOut.b./oOut.stderr;
 
-// Calculate partial correlations
+// Calculate partial correlations using equation 3-22
 df = 10;
 p_cor = sqrt((t_stats.^2)./(t_stats.^2 + df));
 

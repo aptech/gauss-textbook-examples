@@ -1,6 +1,10 @@
 /* 
 ** This follows example 3.6 on page 41 
 ** of Greene, Econometric Analysis
+**
+** Note per footnote on Table 3.1 
+** solutions are slightly different than
+** those printed based on raw data
 */
 
 // Load the relevant data
