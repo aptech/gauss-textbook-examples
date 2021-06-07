@@ -8,7 +8,11 @@
 */
 
 // Load the relevant data
-invest_data = loadd(__FILE_DIR $+ "TableF3-1-mod.csv", "date($Year, '%Y') + Real Investment + Constant + Trend + Real GDP + Interest Rate + Inflation Rate + RealGNP");
+// Filename
+fname = "data\\TableF3-1-mod.csv";
+
+// Load data
+invest_data = loadd(fname, "date(Year, %Y) + Real Investment + Constant + Trend + Real GDP + Interest Rate + Inflation Rate + RealGNP");
 
 // View data table
 invest_data;
@@ -33,5 +37,5 @@ Print "b1 :"; b1;
 // Full Model
 // Estimate the model
 print;
-call olsmt("", invest_data[., "Real Investment"], invest_data[., "Trend" "RealGNP" "Interest Rate" "Inflation Rate"]);
-
+//call olsmt("", invest_data[., "Real Investment"], invest_data[., "Trend" "RealGNP" "Interest Rate" "Inflation Rate"]);
+call olsmt(fname, "Real Investment ~ Trend + RealGNP + Interest Rate + Inflation Rate");
