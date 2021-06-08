@@ -212,17 +212,19 @@ Next, we estimate the OLS and store the results using :func:`olsmt`. We will use
     Interest Rate      0.0201716    0.0336915      0.598714      0.563      0.160339         0.553021
     Inflation Rate    -0.0116592    0.0397682     -0.293179      0.775    -0.0486547         0.191923
 
-Step Three: Extract the simple correlation
+Step Three: Extract the simple correlations
 ++++++++++++++++++++++++++++++++++++++++++++++
 Note that the printed output table includes the correlations between the independent variables and the dependent variables. These are stored in the *olsmtOut* structure in the *oOut.cx* member. Let's extract these to include in our comparison table:
 
 ::
 
-    // The simple correlations
-    // between the dependent and
-    // independent variables are
-    // computed and stored when
-    // olsmt is called
+    /*
+    ** The simple correlations
+    ** between the dependent and
+    ** independent variables are
+    ** computed and stored when
+    ** olsmt is called
+    */
     simple_cor = oOut.cx[1:4, cols(oOut.cx)];
 
 
@@ -237,11 +239,11 @@ To compute the partial correlations we need to :
 ::
 
     /*
-    ** Now we will calculate the partial
+    ** Calculate the partial
     ** correlations using equation 3-22
     */
 
-    // Find t-stat using olsmt results
+    // Find t ratio using olsmt results
     t_stats = oOut.b./oOut.stderr;
 
     // Calculate partial correlations using equation 3-22
