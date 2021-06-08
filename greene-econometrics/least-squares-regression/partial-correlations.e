@@ -6,6 +6,7 @@
 ** solutions are slightly different than
 ** those printed based on raw data
 */
+new;
 
 // Load the relevant data
 // Filename
@@ -14,20 +15,18 @@ fname = "data\\TableF3-1-mod.csv";
 // Load data
 invest_data = loadd(fname, "date(Year, %Y) + Real Investment + Constant + Trend + Real GDP + Interest Rate + Inflation Rate + RealGNP");
 
-// Define independent variables
-X = invest_data[., "Trend" "RealGNP" "Interest Rate" "Inflation Rate"];
-
-// Define dependent variable
-y = invest_data[., "Real Investment"];
-
 // Estimate linear model using
 // least squares and store
 // results
 struct olsmtOut oOut;
-oOut = olsmt("", y, X);
+oOut = olsmt(fname, "Real Investment ~ Trend + RealGNP + Interest Rate + Inflation Rate");
 
-// Simple correlations
-simple_cor = corrx(Y~X);
+// The simple correlations
+// between the dependent and 
+// independent variables are 
+// computed and stored when
+// olsmt is called
+simple_cor = oOut.cx[1:4, cols(oOut.cx)];
 
 /*
 ** Now we will calculate the partial 
@@ -48,7 +47,9 @@ p_cor = sign_p .* p_cor;
 
 // Print table
 n_var = rows(oOut.b);
-table_vals = oOut.b[2:n_var]~t_stats[2:n_var]~simple_cor[2:n_var, 1]~p_cor[2:n_var];
 vars = "Trend"$|"RealGDP"$|"Interest"$|"Inflation";
+stats = ""$|"Coeff."$|"t ratio"$|"Simple Corr."$|"Partial Corr.";
 
-sprintf("%10s %10.5f %10.2f %10.5f", vars, oOut.b[2:n_var], t_stats[2:n_var], simple_cor[2:n_var, 1]~p_cor[2:n_var]);
+print;
+sprintf("%21s", stats');
+sprintf("%20s %20.5f %20.2f %20.5f", vars, oOut.b[2:n_var], t_stats[2:n_var], simple_cor~p_cor[2:n_var]);
