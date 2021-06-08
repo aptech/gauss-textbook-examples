@@ -4,6 +4,7 @@ This application demonstrates how to apply least squares regression to a multiva
 using macroeconomic data.
 
 This application manually computes the least square estimates for the coefficients in the linear equation:
+
 .. math:: \text{Real Investment} = b_1 + b_2*t + b_3*\text{Real GNP}
 
 Getting Started
@@ -83,9 +84,9 @@ Step Three: Computing coefficients
 +++++++++++++++++++++++++++++++++++
 The coefficients :math:b_2, and :math:b_3 are computed following Eq. 3-8:
 
-.. math :: b_2 = \frac{\sum_i t_i y_i \sum_i g_i^2 - \sum_i g_i t_i \sum_i t_i g_i}{\sum_i t_i^2 \sum_i g_i^2 - (\sim_i g_i t_i)^2}
+.. math:: b_2 = \frac{\sum_i t_i y_i \sum_i g_i^2 - \sum_i g_i t_i \sum_i t_i g_i}{\sum_i t_i^2 \sum_i g_i^2 - (\sum_i g_i t_i)^2}
 
-.. math :: b_3 = \frac{\sum_i g_i y_i \sum_i t_i^2 - \sum_i t_i y_i \sum_i t_i g_i}{\sum_i t_i^2 \sum_i g_i^2 - (\sim_i g_i t_i)^2}
+.. math:: b_3 = \frac{\sum_i g_i y_i \sum_i t_i^2 - \sum_i t_i y_i \sum_i t_i g_i}{\sum_i t_i^2 \sum_i g_i^2 - (\sum_i g_i t_i)^2}
 
 ::
 
@@ -100,7 +101,7 @@ The coefficients :math:b_2, and :math:b_3 are computed following Eq. 3-8:
 
 Once :math:b_2, and :math:b_3 are calculated, when can compute :math:b_1 following Eq. 3-7:
 
-.. math :: b_1 = \bar{Y} - b_2\bar{T} - b_3\bar{G}
+.. math:: b_1 = \bar{Y} - b_2 \bar{T} - b_3 \bar{G}
 
 ::
 
@@ -127,7 +128,7 @@ Step Four: Estimating the full model
 +++++++++++++++++++++++++++++++++++++
 It is worth noting that though we just computed the coefficients manually, GAUSS has built-in procedures for least squares regression. For example, we will use :func:`olsmt` to compute the full model:
 
-.. math:: \text{Real Investment} = b_1 + \b_2*t + b_3*\text{Real GNP} + b_4 \text{Interest Rate} + b_5 \text{Inflation Rate}
+.. math:: \text{Real Investment} = b_1 + b_2*t + b_3*\text{Real GNP} + b_4 \text{Interest Rate} + b_5 \text{Inflation Rate}
 
 ::
 
@@ -188,9 +189,9 @@ To both replicate the results in Table 3.2 we will load the following variables:
 
 Step Two: Estimate least squares regression
 +++++++++++++++++++++++++++++++++++++++++++
-Next, we estimate the OLS and store the results using :func:`olsmt`. We will use the stored coefficients and standard errors for computing the parttial correlations.
+Next, we estimate the OLS and store the results using :func:`olsmt`. We will use the stored coefficients and standard errors for computing the partial correlations.
 
-.. math:: \text{Real Investment} = b_1 + \b_2*t + b_3*\text{Real GNP} + b_4 \text{Interest Rate} + b_5 \text{Inflation Rate}
+.. math:: \text{Real Investment} = b_1 + b_2 t + b_3 \text{Real GNP} + b_4 \text{Interest Rate} + b_5 \text{Inflation Rate}
 
 ::
 
