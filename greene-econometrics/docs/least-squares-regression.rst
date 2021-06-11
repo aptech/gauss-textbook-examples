@@ -5,7 +5,7 @@ using macroeconomic data.
 
 This application manually computes the least square estimates for the coefficients in the linear equation:
 
-.. math:: \text{Real Investment} = b_1 + b_2*t + b_3*\text{Real GNP}
+.. math:: \text{Real Investment} = b_1 + b_2t + b_3\text{Real GNP}
 
 Getting Started
 ---------------------------------------------------
@@ -78,13 +78,13 @@ The computations of multivariate coefficients require that we first compute the 
   g_little = invest_data[., "RealGNP"]- meanc(invest_data[., "RealGNP"]);
 
 
-The results *y_little*, *t_little*, and *g_little* correspond to the in-text variables :math:y , :math:t, and :math:g, respectively.
+The results *y_little*, *t_little*, and *g_little* correspond to the in-text variables :math:`y` , :math:`t`, and :math:`g`, respectively.
 
 Step Three: Computing coefficients
 +++++++++++++++++++++++++++++++++++
-The coefficients :math:b_2, and :math:b_3 are computed following Eq. 3-8:
+The coefficients :math:`b_2`, and :math:`b_3` are computed following Eq. 3-8:
 
-.. math:: b_2 = \frac{\sum_i t_i y_i \sum_i g_i^2 - \sum_i g_i t_i \sum_i t_i g_i}{\sum_i t_i^2 \sum_i g_i^2 - (\sum_i g_i t_i)^2}
+.. math:: b_2 = \frac{\sum_i t_i y_i \sum_i g_i^2 - \sum_i g_i y_i \sum_i t_i g_i}{\sum_i t_i^2 \sum_i g_i^2 - (\sum_i g_i t_i)^2}
 
 .. math:: b_3 = \frac{\sum_i g_i y_i \sum_i t_i^2 - \sum_i t_i y_i \sum_i t_i g_i}{\sum_i t_i^2 \sum_i g_i^2 - (\sum_i g_i t_i)^2}
 
@@ -99,19 +99,15 @@ The coefficients :math:b_2, and :math:b_3 are computed following Eq. 3-8:
   Print "b3 :"; b3;
 
 
-Once :math:b_2, and :math:b_3 are calculated, when can compute :math:b_1 following Eq. 3-7:
+Once :math:`b_2`, and :math:`b_3` are calculated, when can compute :math:`b_1` following Eq. 3-7:
 
 .. math:: b_1 = \bar{Y} - b_2 \bar{T} - b_3 \bar{G}
 
 ::
 
-  // Calculate b2
-  b2 = ((t_little'*y_little)*(g_little'*g_little) - (g_little'*y_little)*(t_little'*g_little))/((t_little'*t_little)*(g_little'*g_little) - (g_little'*t_little)^2);
-  Print "b2 :"; b2;
-
-  // Calculate b3
-  b3 = ((g_little'*y_little)*(t_little'*t_little) - (t_little'*y_little)*(t_little'*g_little))/((t_little'*t_little)*(g_little'*g_little) - (g_little'*t_little)^2);
-  Print "b3 :"; b3;
+  // Calculate b1
+  b1 = meanc(invest_data[., "Real Investment"]) - b2*meanc(invest_data[., "Trend"]) - b3*meanc(invest_data[., "Real GDP"]);
+  Print "b1 :"; b1;
 
 This prints the computed coefficients to the **Program Input/Output** window:
 
@@ -128,7 +124,7 @@ Step Four: Estimating the full model
 +++++++++++++++++++++++++++++++++++++
 It is worth noting that though we just computed the coefficients manually, GAUSS has built-in procedures for least squares regression. For example, we will use :func:`olsmt` to compute the full model:
 
-.. math:: \text{Real Investment} = b_1 + b_2*t + b_3*\text{Real GNP} + b_4 \text{Interest Rate} + b_5 \text{Inflation Rate}
+.. math:: \text{Real Investment} = b_1 + b_2t + b_3\text{Real GNP} + b_4\text{Interest Rate} + b_5\text{Inflation Rate}
 
 ::
 
