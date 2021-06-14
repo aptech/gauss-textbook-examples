@@ -1,9 +1,6 @@
 Application 3.2.2 An Investment Equation
 ====================================================
-This application demonstrates how to apply least squares regression to a multivariate estimation
-using macroeconomic data.
-
-This application manually computes the least square estimates for the coefficients in the linear equation:
+This example demonstrates how to manually compute least squares estimates from the multivariate macroeconomic linear equation:
 
 .. math:: \text{Real Investment} = b_1 + b_2t + b_3\text{Real GNP}
 
@@ -19,9 +16,9 @@ How to
 
 Step One: Loading data
 ++++++++++++++++++++++++++
-To start, load the relevant variables from the dataset using the :func:`loadd` and a `formula string <https://www.aptech.com/resources/tutorials/loading-variables-from-a-file/>`_.
+To start, load the relevant variables from the dataset using :func:`loadd` and a `formula string <https://www.aptech.com/resources/tutorials/loading-variables-from-a-file/>`_.
 
-To both replicate the Table 3.1 and compute the regression coefficients manually we will load the following variables:
+To replicate Table 3.1 and compute the regression coefficients manually we will load the following variables:
 
 * Constant
 * Trend
@@ -35,7 +32,7 @@ To both replicate the Table 3.1 and compute the regression coefficients manually
 
   // Load the relevant data
   // Filename
-  fname = "data\\TableF3-1-mod.csv";
+  fname = "data/TableF3-1-mod.csv";
 
   // Load data
   invest_data = loadd(fname,
@@ -72,13 +69,18 @@ The computations of multivariate coefficients require that we first compute the 
 
 ::
 
+  // Calculate means
+  y_bar = meanc(invest_data[., "Real Investment"]);
+  t_bar = meanc(invest_data[., "Trend"]);
+  g_bar =  meanc(invest_data[., "RealGNP"];
+
+
   // Calculate deviations from the mean
-  y_little = invest_data[., "Real Investment"]- meanc(invest_data[., "Real Investment"]);
-  t_little = invest_data[., "Trend"]- meanc(invest_data[., "Trend"]);
-  g_little = invest_data[., "RealGNP"]- meanc(invest_data[., "RealGNP"]);
+  y = invest_data[., "Real Investment"]- y_bar;
+  t = invest_data[., "Trend"]- t_bar;
+  g = invest_data[., "RealGNP"]- g_bar);
 
-
-The results *y_little*, *t_little*, and *g_little* correspond to the in-text variables :math:`y` , :math:`t`, and :math:`g`, respectively.
+The results *y*, *t*, and *g* correspond to the in-text variables :math:`y` , :math:`t`, and :math:`g`, respectively.
 
 Step Three: Computing coefficients
 +++++++++++++++++++++++++++++++++++
@@ -91,11 +93,11 @@ The coefficients :math:`b_2`, and :math:`b_3` are computed following Eq. 3-8:
 ::
 
   // Calculate b2
-  b2 = ((t_little'*y_little)*(g_little'*g_little) - (g_little'*y_little)*(t_little'*g_little))/((t_little'*t_little)*(g_little'*g_little) - (g_little'*t_little)^2);
+  b2 = ((t'*y)*(g'*g) - (g'*y)*(t'*g))/((t'*t)*(g'*g) - (g'*t)^2);
   Print "b2 :"; b2;
 
   // Calculate b3
-  b3 = ((g_little'*y_little)*(t_little'*t_little) - (t_little'*y_little)*(t_little'*g_little))/((t_little'*t_little)*(g_little'*g_little) - (g_little'*t_little)^2);
+  b3 = ((g'*y)*(t'*t) - (t'*y)*(t*g))/((t'*t)*(g'*g) - (g'*t)^2);
   Print "b3 :"; b3;
 
 
@@ -106,7 +108,7 @@ Once :math:`b_2`, and :math:`b_3` are calculated, when can compute :math:`b_1` f
 ::
 
   // Calculate b1
-  b1 = meanc(invest_data[., "Real Investment"]) - b2*meanc(invest_data[., "Trend"]) - b3*meanc(invest_data[., "Real GDP"]);
+  b1 =y_bar - b2*t_bar - b3*g_bar;
   Print "b1 :"; b1;
 
 This prints the computed coefficients to the **Program Input/Output** window:
@@ -163,9 +165,9 @@ How to
 
 Step One: Loading data
 ++++++++++++++++++++++++++
-To start, load the relevant variables from the dataset using the :func:`loadd` and a `formula string <https://www.aptech.com/resources/tutorials/loading-variables-from-a-file/>`_.
+To start, load the relevant variables from the dataset using :func:`loadd` and a `formula string <https://www.aptech.com/resources/tutorials/loading-variables-from-a-file/>`_.
 
-To both replicate the results in Table 3.2 we will load the following variables:
+To replicate the results in Table 3.2 we will load the following variables:
 
 * Constant
 * Trend
@@ -194,8 +196,8 @@ Next, we estimate the OLS and store the results using :func:`olsmt`. We will use
     // Estimate linear model using
     // least squares and store
     // results
-    struct olsmtOut oOut;
-    oOut = olsmt(fname, "Real Investment ~ Trend + RealGNP + Interest Rate + Inflation Rate");
+    struct olsmtOut o_Out;
+    o_Out = olsmt(fname, "Real Investment ~ Trend + RealGNP + Interest Rate + Inflation Rate");
 
 ::
 
@@ -222,7 +224,7 @@ Note that the printed output table includes the correlations between the indepen
     ** computed and stored when
     ** olsmt is called
     */
-    simple_cor = oOut.cx[1:4, cols(oOut.cx)];
+    simple_cor = o_oOut.cx[1:4, cols(oOut.cx)];
 
 
 Step Four: Compute the partial correlations
@@ -241,7 +243,7 @@ To compute the partial correlations we need to :
     */
 
     // Find t ratio using olsmt results
-    t_stats = oOut.b./oOut.stderr;
+    t_stats = o_Out.b./o_Out.stderr;
 
     // Calculate partial correlations using equation 3-22
     df = 10;
