@@ -78,7 +78,7 @@ The computations of multivariate coefficients require that we first compute the 
   // Calculate deviations from the mean
   y = invest_data[., "Real Investment"]- y_bar;
   t = invest_data[., "Trend"]- t_bar;
-  g = invest_data[., "RealGNP"]- g_bar);
+  g = invest_data[., "RealGNP"]- g_bar;
 
 The results *y*, *t*, and *g* correspond to the in-text variables :math:`y` , :math:`t`, and :math:`g`, respectively.
 
@@ -97,7 +97,7 @@ The coefficients :math:`b_2`, and :math:`b_3` are computed following Eq. 3-8:
   Print "b2 :"; b2;
 
   // Calculate b3
-  b3 = ((g'*y)*(t'*t) - (t'*y)*(t*g))/((t'*t)*(g'*g) - (g'*t)^2);
+  b3 = ((g'*y)*(t'*t) - (t'*y)*(t'*g))/((t'*t)*(g'*g) - (g'*t)^2);
   Print "b3 :"; b3;
 
 
