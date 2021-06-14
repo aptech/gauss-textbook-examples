@@ -1,15 +1,15 @@
-/* 
-** This follows example 3.6 on page 41 
+/*
+** This follows example 3.6 on page 41
 ** of Greene, Econometric Analysis
 **
-** Note per footnote on Table 3.1 
+** Note per footnote on Table 3.1
 ** solutions are slightly different than
 ** those printed based on raw data
 */
 
 // Load the relevant data
 // Filename
-fname = "data\\TableF3-1-mod.csv";
+fname = "data/TableF3-1-mod.csv";
 
 // Load data
 invest_data = loadd(fname, "date(Year, %Y) + Real Investment + Constant + Trend + Real GDP + Interest Rate + Inflation Rate + RealGNP");
@@ -17,22 +17,31 @@ invest_data = loadd(fname, "date(Year, %Y) + Real Investment + Constant + Trend 
 // View data table
 invest_data;
 
+// Calculate means
+y_bar = meanc(invest_data[., "Real Investment"]);
+t_bar = meanc(invest_data[., "Trend"]);
+g_bar = meanc(invest_data[., "RealGNP"]);
+
+
 // Calculate deviations from the mean
-y_little = invest_data[., "Real Investment"]- meanc(invest_data[., "Real Investment"]);
-t_little = invest_data[., "Trend"]- meanc(invest_data[., "Trend"]);
-g_little = invest_data[., "RealGNP"]- meanc(invest_data[., "RealGNP"]);
+y = invest_data[., "Real Investment"]- y_bar;
+t = invest_data[., "Trend"]- t_bar;
+g = invest_data[., "RealGNP"]- g_bar;
 
 // Calculate b2
-b2 = ((t_little'*y_little)*(g_little'*g_little) - (g_little'*y_little)*(t_little'*g_little))/((t_little'*t_little)*(g_little'*g_little) - (g_little'*t_little)^2);
-Print "b2 :"; b2;
+b2 = ((t'*y)*(g'*g) - (g'*y)*(t'*g))/((t'*t)*(g'*g) - (g'*t)^2);
+Print "b2 :";
+b2;
 
 // Calculate b3
-b3 = ((g_little'*y_little)*(t_little'*t_little) - (t_little'*y_little)*(t_little'*g_little))/((t_little'*t_little)*(g_little'*g_little) - (g_little'*t_little)^2);
-Print "b3 :"; b3;
+b3 = ((g'*y)*(t'*t) - (t'*y)*(t'*g))/((t'*t)*(g'*g) - (g'*t)^2);
+Print "b3 :";
+b3;
 
 // Calculate b1
-b1 = meanc(invest_data[., "Real Investment"]) - b2*meanc(invest_data[., "Trend"]) - b3*meanc(invest_data[., "Real GDP"]);
-Print "b1 :"; b1;
+b1 =y_bar - b2*t_bar - b3*g_bar;
+Print "b1 :";
+b1;
 
 // Full Model
 // Estimate the model
