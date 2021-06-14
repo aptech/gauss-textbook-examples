@@ -179,7 +179,7 @@ To replicate the results in Table 3.2 we will load the following variables:
 ::
 
   // Filename
-  fname = "data\\TableF3-1-mod.csv";
+  fname = "data/TableF3-1-mod.csv";
 
   // Load data
   invest_data = loadd(fname, "date(Year, %Y) + Real Investment + Constant + Trend + Real GDP + Interest Rate + Inflation Rate + RealGNP");
