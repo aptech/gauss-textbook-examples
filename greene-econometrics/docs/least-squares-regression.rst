@@ -12,6 +12,7 @@ This example demonstrates how to manually compute least squares estimates from t
 Getting Started
 ++++++++++++++++++++++++++++++++++++++++++
 To run this example on your own you will need to install the GreeneLib package. This package houses all examples and associated data.
+
 How to
 ++++++++++++++++++++++++++++++++++++++++++
 
@@ -157,10 +158,7 @@ This example compares the least squares coefficients estimates with simple corre
 
 Getting Started
 ++++++++++++++++++++++++++++++++
-To run this example on your own you will need:
-
-* The "Table 3.1-mod.csv" dataset
-* The "partial-correlations.e" program file
+To run this example on your own you will need to install the GreeneLib package. This package houses all examples and associated data.
 
 How to
 ++++++++++++++++++++++++++++++++
@@ -226,7 +224,7 @@ Note that the printed output table includes the correlations between the indepen
     ** computed and stored when
     ** olsmt is called
     */
-    simple_cor = o_oOut.cx[1:4, cols(o_out.cx)];
+    simple_cor = o_out.cx[1:4, cols(o_out.cx)];
 
 
 Step Four: Compute the partial correlations
@@ -245,11 +243,11 @@ To compute the partial correlations we need to :
     */
 
     // Find t ratio using olsmt results
-    t_stats = o_out.b./o_out.stderr;
+    t_stats = o_out.b ./ o_out.stderr;
 
     // Calculate partial correlations using equation 3-22
     df = 10;
-    p_cor = sqrt((t_stats.^2)./(t_stats.^2 + df));
+    p_cor = sqrt((t_stats.^2) ./ (t_stats.^2 + df));
 
 
 ::
