@@ -9,7 +9,7 @@
 
 // Load the relevant data
 // Filename
-fname = "data/TableF3-1-mod.csv";
+fname = "TableF3-1-mod.csv";
 
 // Load data
 invest_data = loadd(fname, "date(Year, %Y) + Real Investment + Constant + Trend + Real GDP + Interest Rate + Inflation Rate + RealGNP");
@@ -24,17 +24,17 @@ g_bar = meanc(invest_data[., "RealGNP"]);
 
 
 // Calculate deviations from the mean
-y = invest_data[., "Real Investment"]- y_bar;
-t = invest_data[., "Trend"]- t_bar;
-g = invest_data[., "RealGNP"]- g_bar;
+y = invest_data[., "Real Investment"] - y_bar;
+t = invest_data[., "Trend"] - t_bar;
+g = invest_data[., "RealGNP"] - g_bar;
 
 // Calculate b2
-b2 = ((t'*y)*(g'*g) - (g'*y)*(t'*g))/((t'*t)*(g'*g) - (g'*t)^2);
+b2 = ((t'y)*(g'g) - (g'y)*(t'g))/((t't)*(g'g) - (g't)^2);
 Print "b2 :";
 b2;
 
 // Calculate b3
-b3 = ((g'*y)*(t'*t) - (t'*y)*(t'*g))/((t'*t)*(g'*g) - (g'*t)^2);
+b3 = ((g'y)*(t't) - (t'y)*(t'g))/((t't)*(g'g) - (g't)^2);
 Print "b3 :";
 b3;
 
