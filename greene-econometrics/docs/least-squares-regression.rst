@@ -33,7 +33,7 @@ To replicate Table 3.1 and compute the regression coefficients manually we will 
 
   // Load the relevant data
   // Filename
-  fname = "data/TableF3-1-mod.csv";
+  fname = getGAUSShome() $+ "pkgs/GreeneLib/examples/TableF3-1-mod.csv";
 
   // Load data
   invest_data = loadd(fname, "date(Year, %Y) + Real Investment + Constant + Trend + Real GDP +
@@ -78,8 +78,8 @@ The computations of multivariate coefficients require that we first compute the 
 
   // Calculate deviations from the mean
   y = invest_data[., "Real Investment"] - y_bar;
-  t = invest_data[., "Trend"]- t_bar;
-  g = invest_data[., "RealGNP"]- g_bar;
+  t = invest_data[., "Trend"] - t_bar;
+  g = invest_data[., "RealGNP"] - g_bar;
 
 The results *y*, *t*, and *g* correspond to the in-text variables :math:`y` , :math:`t`, and :math:`g`, respectively.
 
