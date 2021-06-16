@@ -4,6 +4,8 @@ This example demonstrates how to manually compute least squares estimates from t
 
 .. math:: \text{Real Investment} = b_1 + b_2t + b_3\text{Real GNP}
 
+.. note:: The purpose of these examples is to demonstrate the applications found in [William Greene's *Econometric Analysis*](https://www.pearson.com/us/higher-education/program/Greene-Econometric-Analysis-8th-Edition/PGM334862.html). They follow, as directly as possible, the steps in the textbook and do not always present the most efficient manner to implement these techniques in GAUSS.
+
 Getting Started
 ---------------------------------------------------
 To run this example on your own you will need:
@@ -35,8 +37,8 @@ To replicate Table 3.1 and compute the regression coefficients manually we will 
   fname = "data/TableF3-1-mod.csv";
 
   // Load data
-  invest_data = loadd(fname,
-  "date(Year, %Y) + Real Investment + Constant + Trend + Real GDP + Interest Rate + Inflation Rate + RealGNP");
+  invest_data = loadd(fname, "date(Year, %Y) + Real Investment + Constant + Trend + Real GDP +
+                                               Interest Rate + Inflation Rate + RealGNP");
 
   // View data table
   invest_data;
@@ -76,7 +78,7 @@ The computations of multivariate coefficients require that we first compute the 
 
 
   // Calculate deviations from the mean
-  y = invest_data[., "Real Investment"]- y_bar;
+  y = invest_data[., "Real Investment"] - y_bar;
   t = invest_data[., "Trend"]- t_bar;
   g = invest_data[., "RealGNP"]- g_bar;
 
@@ -93,11 +95,11 @@ The coefficients :math:`b_2`, and :math:`b_3` are computed following Eq. 3-8:
 ::
 
   // Calculate b2
-  b2 = ((t'*y)*(g'*g) - (g'*y)*(t'*g))/((t'*t)*(g'*g) - (g'*t)^2);
+  b2 = ((t'y)*(g'g) - (g'y)*(t'g))/((t't)*(g'g) - (g't)^2);
   Print "b2 :"; b2;
 
   // Calculate b3
-  b3 = ((g'*y)*(t'*t) - (t'*y)*(t'*g))/((t'*t)*(g'*g) - (g'*t)^2);
+  b3 = ((g'y)*(t't) - (t'y)*(t'g))/((t't)*(g'g) - (g't)^2);
   Print "b3 :"; b3;
 
 
@@ -108,7 +110,7 @@ Once :math:`b_2`, and :math:`b_3` are calculated, when can compute :math:`b_1` f
 ::
 
   // Calculate b1
-  b1 =y_bar - b2*t_bar - b3*g_bar;
+  b1 = y_bar - b2*t_bar - b3*g_bar;
   Print "b1 :"; b1;
 
 This prints the computed coefficients to the **Program Input/Output** window:
@@ -128,6 +130,7 @@ It is worth noting that though we just computed the coefficients manually, GAUSS
 
 .. math:: \text{Real Investment} = b_1 + b_2t + b_3\text{Real GNP} + b_4\text{Interest Rate} + b_5\text{Inflation Rate}
 
+We will continue with our example from above and use the previously defined *fname* to estimate our the model using :func:`olsmt`:
 ::
 
   call olsmt(fname, "Real Investment ~ Trend + RealGNP + Interest Rate + Inflation Rate");
@@ -196,8 +199,8 @@ Next, we estimate the OLS and store the results using :func:`olsmt`. We will use
     // Estimate linear model using
     // least squares and store
     // results
-    struct olsmtOut o_Out;
-    o_Out = olsmt(fname, "Real Investment ~ Trend + RealGNP + Interest Rate + Inflation Rate");
+    struct olsmtOut o_out;
+    o_out = olsmt(fname, "Real Investment ~ Trend + RealGNP + Interest Rate + Inflation Rate");
 
 ::
 
@@ -213,7 +216,7 @@ Next, we estimate the OLS and store the results using :func:`olsmt`. We will use
 
 Step Three: Extract the simple correlations
 ++++++++++++++++++++++++++++++++++++++++++++++
-Note that the printed output table includes the correlations between the independent variables and the dependent variables. These are stored in the *olsmtOut* structure in the *oOut.cx* member. Let's extract these to include in our comparison table:
+Note that the printed output table includes the correlations between the independent variables and the dependent variables. These are stored in the *olsmtOut* structure in the *o_out.cx* member. Let's extract these to include in our comparison table:
 
 ::
 
@@ -224,7 +227,7 @@ Note that the printed output table includes the correlations between the indepen
     ** computed and stored when
     ** olsmt is called
     */
-    simple_cor = o_oOut.cx[1:4, cols(oOut.cx)];
+    simple_cor = o_oOut.cx[1:4, cols(o_out.cx)];
 
 
 Step Four: Compute the partial correlations
@@ -243,7 +246,7 @@ To compute the partial correlations we need to :
     */
 
     // Find t ratio using olsmt results
-    t_stats = o_Out.b./o_Out.stderr;
+    t_stats = o_out.b./o_out.stderr;
 
     // Calculate partial correlations using equation 3-22
     df = 10;
