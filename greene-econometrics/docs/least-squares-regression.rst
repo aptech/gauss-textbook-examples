@@ -1,5 +1,8 @@
+Chapter 3: Least Squares Regression
+==========================================
+
 Application 3.2.2 An Investment Equation
-====================================================
+-------------------------------------------
 This example demonstrates how to manually compute least squares estimates from the multivariate macroeconomic linear equation:
 
 .. math:: \text{Real Investment} = b_1 + b_2t + b_3\text{Real GNP}
@@ -7,17 +10,13 @@ This example demonstrates how to manually compute least squares estimates from t
 .. note:: The purpose of these examples is to demonstrate the applications found in [William Greene's *Econometric Analysis*](https://www.pearson.com/us/higher-education/program/Greene-Econometric-Analysis-8th-Edition/PGM334862.html). They follow, as directly as possible, the steps in the textbook and do not always present the most efficient manner to implement these techniques in GAUSS.
 
 Getting Started
----------------------------------------------------
-To run this example on your own you will need:
-
-* The "Table 3.1-mod.csv" dataset
-* The "least-squares-regression-investment.e" program file
-
+++++++++++++++++++++++++++++++++++++++++++
+To run this example on your own you will need to install the GreeneLib package. This package houses all examples and associated data.
 How to
----------------------------------------------------
+++++++++++++++++++++++++++++++++++++++++++
 
 Step One: Loading data
-++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 To start, load the relevant variables from the dataset using :func:`loadd` and a `formula string <https://www.aptech.com/resources/tutorials/loading-variables-from-a-file/>`_.
 
 To replicate Table 3.1 and compute the regression coefficients manually we will load the following variables:
@@ -66,7 +65,7 @@ To replicate Table 3.1 and compute the regression coefficients manually we will 
 
 
 Step Two: Transforming data
-++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The computations of multivariate coefficients require that we first compute the deviations of our variables from their means. This can be done in GAUSS using the :func:`meanc` procedure.
 
 ::
@@ -85,7 +84,7 @@ The computations of multivariate coefficients require that we first compute the 
 The results *y*, *t*, and *g* correspond to the in-text variables :math:`y` , :math:`t`, and :math:`g`, respectively.
 
 Step Three: Computing coefficients
-+++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The coefficients :math:`b_2`, and :math:`b_3` are computed following Eq. 3-8:
 
 .. math:: b_2 = \frac{\sum_i t_i y_i \sum_i g_i^2 - \sum_i g_i y_i \sum_i t_i g_i}{\sum_i t_i^2 \sum_i g_i^2 - (\sum_i g_i t_i)^2}
@@ -125,7 +124,7 @@ This prints the computed coefficients to the **Program Input/Output** window:
      -6.8490543
 
 Step Four: Estimating the full model
-+++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 It is worth noting that though we just computed the coefficients manually, GAUSS has built-in procedures for least squares regression. For example, we will use :func:`olsmt` to compute the full model:
 
 .. math:: \text{Real Investment} = b_1 + b_2t + b_3\text{Real GNP} + b_4\text{Interest Rate} + b_5\text{Inflation Rate}
@@ -153,21 +152,21 @@ Using internal GAUSS procedures, like :func:`olsmt` greatly reduces time and eff
 
 
 Exercise 3.1 Partial Correlations
-===================================================
+---------------------------------------------------
 This example compares the least squares coefficients estimates with simple correlation and partial correlation.
 
 Getting Started
----------------------------------------------------
+++++++++++++++++++++++++++++++++
 To run this example on your own you will need:
 
 * The "Table 3.1-mod.csv" dataset
 * The "partial-correlations.e" program file
 
 How to
----------------------------------------------------
+++++++++++++++++++++++++++++++++
 
 Step One: Loading data
-++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^
 To start, load the relevant variables from the dataset using :func:`loadd` and a `formula string <https://www.aptech.com/resources/tutorials/loading-variables-from-a-file/>`_.
 
 To replicate the results in Table 3.2 we will load the following variables:
@@ -189,7 +188,7 @@ To replicate the results in Table 3.2 we will load the following variables:
 
 
 Step Two: Estimate least squares regression
-+++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Next, we estimate the OLS and store the results using :func:`olsmt`. We will use the stored coefficients and standard errors for computing the partial correlations.
 
 .. math:: \text{Real Investment} = b_1 + b_2 t + b_3 \text{Real GNP} + b_4 \text{Interest Rate} + b_5 \text{Inflation Rate}
@@ -215,7 +214,7 @@ Next, we estimate the OLS and store the results using :func:`olsmt`. We will use
     Inflation Rate    -0.0116592    0.0397682     -0.293179      0.775    -0.0486547         0.191923
 
 Step Three: Extract the simple correlations
-++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Note that the printed output table includes the correlations between the independent variables and the dependent variables. These are stored in the *olsmtOut* structure in the *o_out.cx* member. Let's extract these to include in our comparison table:
 
 ::
@@ -231,7 +230,7 @@ Note that the printed output table includes the correlations between the indepen
 
 
 Step Four: Compute the partial correlations
-++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 To compute the partial correlations we need to :
 
 *  Compute the t ratios for the variables using the stored estimates and standard errors.
