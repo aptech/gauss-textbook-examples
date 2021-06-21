@@ -1,5 +1,5 @@
 /*
-** This follows example 3.6 on page 41
+** This follows example 3.1 on page 41
 ** of Greene, Econometric Analysis
 **
 ** Note per footnote on Table 3.1
@@ -8,8 +8,8 @@
 */
 
 // Load the relevant data
-// Filename
-fname = "TableF3-1-mod.csv";
+load_dir = getGAUSSHome $+ "pkgs/greeneLib/examples/";
+fname = load_dir $+ "TableF3-1-mod.csv";
 
 // Load data
 invest_data = loadd(fname, "date(Year, %Y) + Real Investment + Constant + Trend + Real GDP + Interest Rate + Inflation Rate + RealGNP");
@@ -44,7 +44,5 @@ Print "b1 :";
 b1;
 
 // Full Model
-// Estimate the model
 print;
-//call olsmt("", invest_data[., "Real Investment"], invest_data[., "Trend" "RealGNP" "Interest Rate" "Inflation Rate"]);
 call olsmt(fname, "Real Investment ~ Trend + RealGNP + Interest Rate + Inflation Rate");

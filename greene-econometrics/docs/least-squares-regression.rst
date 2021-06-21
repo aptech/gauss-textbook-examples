@@ -1,13 +1,13 @@
 Chapter 3: Least Squares Regression
 ==========================================
 
+.. note:: The purpose of these examples is to demonstrate the applications found in [William Greene's *Econometric Analysis*](https://www.pearson.com/us/higher-education/program/Greene-Econometric-Analysis-8th-Edition/PGM334862.html). They follow, as directly as possible, the steps in the textbook and do not always present the most efficient manner to implement these techniques in GAUSS.
+
 Application 3.2.2 An Investment Equation
 -------------------------------------------
 This example demonstrates how to manually compute least squares estimates from the multivariate macroeconomic linear equation:
 
 .. math:: \text{Real Investment} = b_1 + b_2t + b_3\text{Real GNP}
-
-.. note:: The purpose of these examples is to demonstrate the applications found in [William Greene's *Econometric Analysis*](https://www.pearson.com/us/higher-education/program/Greene-Econometric-Analysis-8th-Edition/PGM334862.html). They follow, as directly as possible, the steps in the textbook and do not always present the most efficient manner to implement these techniques in GAUSS.
 
 Getting Started
 ++++++++++++++++++++++++++++++++++++++++++
@@ -179,7 +179,7 @@ To replicate the results in Table 3.2 we will load the following variables:
 ::
 
   // Filename
-  fname = "data/TableF3-1-mod.csv";
+  fname = getGAUSSHome $+ "pkgs/GreeneLib/examples/TableF3-1-mod.csv";
 
   // Load data
   invest_data = loadd(fname, "date(Year, %Y) + Real Investment + Constant + Trend + Real GDP + Interest Rate + Inflation Rate + RealGNP");
