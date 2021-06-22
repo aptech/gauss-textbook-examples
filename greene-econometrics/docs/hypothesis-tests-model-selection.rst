@@ -11,7 +11,7 @@ In particular, it considers whether *Size* is a statistically significant determ
 .. math:: H_0: \beta_2 = 0
 .. math:: H_1: \beta_2 \neq 0
 
-If *Size* is a statistically significant determinant of *Price* than the null hypothesis that :math: `\beta_2 \eq 0` should be rejected.
+If *Size* is a statistically significant determinant of *Price* than the null hypothesis that :math:`\beta_2 \eq 0` should be rejected.
 
 Getting Started
 ++++++++++++++++++++++++++++++++
@@ -31,6 +31,7 @@ To start, load the relevant variables from *Table 4.7* using :func:`loadd` and a
   monet_data = loadd(fname, "HEIGHT+ ln(Price) + WIDTH");
 
 The code above:
+
 1.  Tranforms the raw data variable, *Price* into our dependent variable *ln(Price)*.
 2.  The raw data variables *Height* and *Width* are loaded so we can create our dependent variables, *Aspect Ratio* and the *Size*.
 
@@ -80,7 +81,7 @@ When we call :func:`olsmt` a complete set of results are printed to screen inclu
 These results confirm that:
 
 * The *Size* variable is statistically significant with a t-statistic equal to 14.3009.
-* The *Aspect Ratio* variable is not statistically significant with a t-statistic equal to -0.61.  
+* The *Aspect Ratio* variable is not statistically significant with a t-statistic equal to -0.61.
 
 Step Four: Additional testing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
