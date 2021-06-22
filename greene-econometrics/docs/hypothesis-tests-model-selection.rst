@@ -11,7 +11,7 @@ In particular, it considers whether *Size* is a statistically significant determ
 .. math:: H_0: \beta_2 = 0
 .. math:: H_1: \beta_2 \neq 0
 
-If *Size* is a statistically significant determinant of *Price* than the null hypothesis that :math:`\beta_2 \eq 0` should be rejected.
+If *Size* is a statistically significant determinant of *Price* than the null hypothesis that :math:`\beta_2 = 0` should be rejected.
 
 Getting Started
 ++++++++++++++++++++++++++++++++
