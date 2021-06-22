@@ -15,7 +15,7 @@ If *Size* is a statistically significant determinant of *Price* than the null hy
 
 Getting Started
 ++++++++++++++++++++++++++++++++
-To run this example on your own you will need to install the GreeneLib package. This package houses all examples and associated data.
+To run this example on your own you will need to install the greeneLib package. This package houses all examples and associated data.
 
 How to
 ++++++++++++++++++++++++++++++++
