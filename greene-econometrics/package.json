@@ -1,0 +1,18 @@
+{
+    "author": "Aptech Systems",
+    "deps": [
+    ],
+    "description": "Greene Textbook Examples",
+    "dlib": [
+    ],
+    "keywords": [
+    ],
+    "license": "GAUSS Standard License Agreement",
+    "name": "greenelib",
+    "repo": "",
+    "src": [
+       
+
+    ],
+    "version": "1.0.0"
+}
