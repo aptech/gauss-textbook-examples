@@ -11,7 +11,7 @@ This example demonstrates how to manually compute least squares estimates from t
 
 Getting Started
 ++++++++++++++++++++++++++++++++++++++++++
-To run this example on your own you will need to install the GreeneLib package. This package houses all examples and associated data.
+To run this example on your own you will need to install the greeneLib package. This package houses all examples and associated data.
 
 How to
 ++++++++++++++++++++++++++++++++++++++++++
