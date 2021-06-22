@@ -1,7 +1,7 @@
 Chapter 3: Least Squares Regression
 ==========================================
 
-.. note:: The purpose of these examples is to demonstrate the applications found in [William Greene's *Econometric Analysis*](https://www.pearson.com/us/higher-education/program/Greene-Econometric-Analysis-8th-Edition/PGM334862.html). They follow, as directly as possible, the steps in the textbook and do not always present the most efficient manner to implement these techniques in GAUSS.
+.. note:: The purpose of these examples is to demonstrate the applications found in William Greene's `Econometric Analysis <https://www.pearson.com/us/higher-education/program/Greene-Econometric-Analysis-8th-Edition/PGM334862.html>`_. They follow, as directly as possible, the steps in the textbook and do not always present the most efficient manner to implement these techniques in GAUSS.
 
 Application 3.2.2 An Investment Equation
 -------------------------------------------
@@ -194,8 +194,7 @@ Next, we estimate the OLS and store the results using :func:`olsmt`. We will use
 ::
 
     // Estimate linear model using
-    // least squares and store
-    // results
+    // least squares and store results
     struct olsmtOut o_out;
     o_out = olsmt(fname, "Real Investment ~ Trend + RealGNP + Interest Rate + Inflation Rate");
 
