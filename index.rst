@@ -1,15 +1,16 @@
 Textbook Examples
 =================
-This collection demonstrates how to implement statistics and econometrics examples from prominent textbooks in GAUSS. It provides explanations, along with the necessary program files and data to reproduce the examples.
+This project uses hands-on GAUSS examples to demonstrate the statistical and econometric methods found in prominent textbooks.
 
-The primary goals of this project are to:
+Our examples emphasize a learn-by-doing approach and include:
 
-*  Reiterate the learning objectives of the textbooks.
-*  Demonstrate how to accomplish these objectives using GAUSS.
+*  Explanations
+*  Program files
+*  Data
 
-As such, this project may not always demonstrate the most efficient way to perform computations in GAUSS. Where possible, we have highlighted when built-in tools can improve efficiency.
+.. note:: This project aims to follow the textbook examples as closely as possible and may not always demonstrate the most efficient way to perform computations in GAUSS.
 
-This is a work in progress and we recommend checking back often for additions.
+\*This is a work in progress and we recommend checking back often for additions.
 
 .. toctree::
     :maxdepth: 1
