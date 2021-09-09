@@ -17,3 +17,4 @@ Our examples emphasize a learn-by-doing approach and include:
     :caption: Sections:
 
     greene-econometrics/docs/index
+    brooks-introductory-econometrics-for-finance/docs/index
