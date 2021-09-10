@@ -26,7 +26,7 @@ To start, load the relevant variables from *Table 4.7* using :func:`loadd` and a
 
 ::
 
-  //Load data using loadd
+  // Load data using loadd
   fname = getGAUSShome() $+ "pkgs/GreeneLib/examples/TableF4-1.csv";
   monet_data = loadd(fname, "HEIGHT+ ln(Price) + WIDTH");
 
@@ -49,7 +49,7 @@ First, we compute the new variables:
   // Compute aspect ratio
   aspect = monet_data[., "WIDTH"] ./ monet_data[., "HEIGHT"];
 
-  // Compute ln(size)
+  // Compute size
   size = monet_data[., "WIDTH"] .* monet_data[., "HEIGHT"];
 
 
@@ -68,7 +68,7 @@ Finally we will create a new dataframe containing our estimation data:
 
 ::
 
-  // Create regression data
+  // Create regression data using the horizontal concatenation operator 
   reg_data = monet_data[., "ln_Price_"] ~ size ~ aspect;
 
 Step Three: Estimate our linear model

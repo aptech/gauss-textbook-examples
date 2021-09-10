@@ -33,14 +33,14 @@ To replicate Table 3.1 and compute the regression coefficients manually we will 
 ::
 
   // Load the relevant data
-  // Filename
+  // Create filename with full path
   fname = getGAUSShome() $+ "pkgs/GreeneLib/examples/TableF3-1-mod.csv";
 
   // Load data
   invest_data = loadd(fname, "date(Year, %Y) + Real Investment + Constant + Trend + Real GDP +
                                                Interest Rate + Inflation Rate + RealGNP");
 
-  // View data table
+  // Print the dataframe
   invest_data;
 
 
@@ -74,7 +74,7 @@ The computations of multivariate coefficients require that we first compute the 
   // Calculate means
   y_bar = meanc(invest_data[., "Real Investment"]);
   t_bar = meanc(invest_data[., "Trend"]);
-  g_bar =  meanc(invest_data[., "RealGNP"];
+  g_bar = meanc(invest_data[., "RealGNP"]);
 
 
   // Calculate deviations from the mean
@@ -96,11 +96,11 @@ The coefficients :math:`b_2`, and :math:`b_3` are computed following Eq. 3-8:
 
   // Calculate b2
   b2 = ((t'y)*(g'g) - (g'y)*(t'g))/((t't)*(g'g) - (g't)^2);
-  Print "b2 :"; b2;
+  print "b2 :"; b2;
 
   // Calculate b3
   b3 = ((g'y)*(t't) - (t'y)*(t'g))/((t't)*(g'g) - (g't)^2);
-  Print "b3 :"; b3;
+  print "b3 :"; b3;
 
 
 Once :math:`b_2`, and :math:`b_3` are calculated, when can compute :math:`b_1` following Eq. 3-7:
@@ -111,7 +111,7 @@ Once :math:`b_2`, and :math:`b_3` are calculated, when can compute :math:`b_1` f
 
   // Calculate b1
   b1 = y_bar - b2*t_bar - b3*g_bar;
-  Print "b1 :"; b1;
+  print "b1 :"; b1;
 
 This prints the computed coefficients to the **Program Input/Output** window:
 
@@ -193,9 +193,10 @@ Next, we estimate the OLS and store the results using :func:`olsmt`. We will use
 
 ::
 
-    // Estimate linear model using
-    // least squares and store results
+    // Declare o_out to be an olsmtOut structure to hold estimation results
     struct olsmtOut o_out;
+
+    // Estimate linear model using least squares and store results
     o_out = olsmt(fname, "Real Investment ~ Trend + RealGNP + Interest Rate + Inflation Rate");
 
 ::
@@ -252,9 +253,9 @@ To compute the partial correlations we need to :
 ::
 
 
-                                  Coeff.              t ratio         Simple Corr.        Partial Corr.
+                          Coeff    t ratio    Simple Corr   Partial Corr
 
-             Trend             -0.16089                -3.41             -0.10363            -0.73284
-           RealGDP              0.09908                 4.11              0.14879             0.79226
-          Interest              0.02017                 0.60              0.55302             0.18603
-         Inflation             -0.01166                -0.29              0.19192            -0.09232
+             Trend     -0.16089      -3.41       -0.10363       -0.73284
+           RealGDP      0.09908       4.11        0.14879        0.79226
+          Interest      0.02017       0.60        0.55302        0.18603
+         Inflation     -0.01166      -0.29        0.19192       -0.09232
