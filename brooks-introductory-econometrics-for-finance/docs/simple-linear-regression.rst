@@ -28,10 +28,6 @@ To replicate this example, we will load the following variables:
 * Spot
 * Futures
 
-Since we are using a CSV file for this data, the date variable will be in the form of a string. It would be very inefficient for GAUSS to check every string column to see if it is a date. So we surround the name of our date variable in ``date()`` so that GAUSS treats it as a date variable. 
-
-Fortunately the date variable is in a standard date format, so GAUSS figures it out automatically. GAUSS allows you to specify any arbitrary date format in your formula string. You can read more about this in the Programmatic Data Import section of the GAUSS Data Management Guide.
-
 
 ::
 
@@ -54,6 +50,10 @@ Fortunately the date variable is in a standard date format, so GAUSS figures it 
       1979-11-01        955.40002        955.00000
       1979-12-01        970.42999        979.25000
       1980-01-01        980.28003        987.75000
+
+Since CSV files do not keep track of variable types, we surround the name of our date variable in ``date()`` so that GAUSS treats it as a date variable. 
+
+The date variable is in a standard date format that GAUSS figures out automatically. For the cases when you need to read an uncommon date format, GAUSS allows you to specify it in your formula string. You can read more about this in the Programmatic Data Import section of the GAUSS Data Management Guide.
 
 
 Step Two: Perform OLS estimation
