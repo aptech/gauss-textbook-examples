@@ -1,0 +1,39 @@
+new;
+cls;
+
+// Create path to data folder
+data_path = __FILE_DIR $+ "../data/";
+
+// Load all variables from the Excel file
+// EXCEPT for 'Date'
+data = loadd(data_path $+ "SandPhedge.csv", ". -Date");
+
+print "Initial data:";
+
+// Print first 5 observations
+print head(data);
+print "";
+
+proc (1) = lnDiff(x);
+    local x_diff;
+    
+    x_diff =  100 * ln(x ./ lagn(x, 1));
+    x_diff = packr(x_diff);
+    
+    retp(x_diff);
+endp;
+
+// Compute log returns of both variables in 'data',
+// then rename the variables
+data = dfname(lnDiff(data), "ret_spot" $| "ret_futures");
+
+print "Log returns:";
+print data[1:5,.];
+print "";
+
+// Compute descriptive statistics
+call dstatmt(data);
+print "";
+
+// Perform OLS estimation and print report
+call olsmt(data, "ret_spot ~ ret_futures");

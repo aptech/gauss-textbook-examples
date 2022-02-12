@@ -1,0 +1,16 @@
+new;
+cls;
+
+// Create path to data folder
+data_set = __FILE_DIR $+ "../data/SandPhedge.csv";
+
+// Load all variables from the Excel file
+data = loadd(data_set, "date(Date) + Spot + Futures");
+
+// Print the first 5 rows of the dataframe
+head(data);
+print "";
+
+// Estimate OLS model and print report
+call olsmt(data, "Spot ~ Futures");
+
