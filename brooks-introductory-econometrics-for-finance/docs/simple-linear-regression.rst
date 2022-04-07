@@ -40,7 +40,7 @@ To replicate this example, we will load the following variables:
     data = loadd(data_set, "date(Date) + Spot + Futures");
 
     // Print the first 5 observations of all columns of our data
-    print data[1:5,.];
+    head(data);
 
 ::
 
@@ -135,7 +135,7 @@ We could have combined this with the previous step, but we will do each step sep
     names = "ret_spot" $| "ret_futures"; 
 
     // Set variable names 
-    ret_data = setcolnames(ret_data, names); 
+    ret_data = dfname(ret_data, names); 
 
 
 
