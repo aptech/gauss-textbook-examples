@@ -70,7 +70,7 @@ We could just remove the call to :func:`packr` from the version of ``lnDiff`` in
 ::
 
     /*
-    **  Procedure to computer log differences
+    **  Procedure to compute log differences
     **
     ** The second input, '...', tells GAUSS
     ** that this procedure can accept extra
@@ -97,14 +97,14 @@ We could just remove the call to :func:`packr` from the version of ``lnDiff`` in
     endp;
     
     // Create a new dataframe with the continuously
-    // compouned returns of 'FORD' and 'SandP'
-    no_trim = 0;
-    ret = lnDiff(data_org[., "FORD" "SandP"], no_trim);
+    // compounded returns of 'FORD' and 'SandP'
+    trim_1 = 0;
+    returns = lnDiff(data_org[., "FORD" "SandP"], trim_1);
     
     // Set the variable names
-    ret = asDF(ret, "ret_ford", "ret_sandp");
+    returns = asDF(returns, "ret_ford", "ret_sandp");
     
-    head(ret);
+    head(returns);
 
 ::
 
@@ -122,16 +122,16 @@ We will finish our data preparation by computing the excess return of ``SandP`` 
 
     // Create a datframe with the excess return of 'SandP' and 'FORD', by
     // subtracting 'USTB3M' from both return variables computed above
-    er = ret - data_org[.,"USTB3M"]; 
+    er = returns - data_org[.,"USTB3M"]; 
 
     // The excess return variables will be in the same order
-    // as the return variables in 'ret'. So make sure the
+    // as the return variables in 'returns'. So make sure the
     // variable names are in the right order.
     er = asDF(er, "erford", "ersandp");
     
     // Add the 'Date' and 'USTB3M' variables to the front
     // of 'data using the horizontal concatenation operator '~'.
-    data = data_org[.,"Date" "USTB3M"] ~ er ~ ret;
+    data = data_org[.,"Date" "USTB3M"] ~ er ~ returns;
     
     head(data);
 
@@ -158,7 +158,7 @@ Step Three: Plot data
 .. figure:: _static/images/brooks-erfordersandp-xy.jpg
    :scale: 50 %
 
-We can create the above plot with the following code:
+We can create the above time series plot with the following code:
 
 ::
 
