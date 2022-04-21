@@ -12,3 +12,4 @@ Brooks, C. (2019). *Econometric Analysis, 4th Edition*. Cambridge: Cambridge Uni
     :caption: Chapters:
 
     simple-linear-regression.rst
+    estimation-of-capital-asset-pricing-model.rst
