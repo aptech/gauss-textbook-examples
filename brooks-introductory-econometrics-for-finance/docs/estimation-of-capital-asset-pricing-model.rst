@@ -54,7 +54,8 @@ To replicate this example, we will load the following variables:
       2002-05-01        17.650000        1067.1400       0.14666667
 
 
-
+**Further reading**: `Data management guide <https://docs.aptech.com/gauss/data-management.html>`_
+**Function reference**: :func:`getGAUSSHome`, :func:`head`, :func:`loadd`
 
 Step Two: Transform data
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -63,7 +64,7 @@ Our data transformation starts by defining a procedure to compute log returns an
 
 Previous versions of our ``lnDiff`` procedure removed the missing observation from the first element of the return value. This time we want to keep the missing observation, because it is more convenient to assign the entire column than a partial column.
 
-We could just remove the call to :func:`packr` from the version of ``lnDiff`` in our previous example. However, we will use this chance to show you `<https://www.aptech.com/blog/the-basics-of-optional-arguments-in-gauss-procedures/>how to use optional inputs to GAUSS procedures`_.
+We could just remove the call to :func:`packr` from the version of ``lnDiff`` in our previous example. However, we will use this chance to show you `how to use optional inputs to GAUSS procedures <https://www.aptech.com/blog/the-basics-of-optional-arguments-in-gauss-procedures/>`_.
 
 ::
 
@@ -140,9 +141,16 @@ We could just remove the call to :func:`packr` from the version of ``lnDiff`` in
       2002-05-01        9.8147061      -0.91229691       0.14666667        9.6680394       -1.0589636
 
 
+**Further reading**: `Basics of GAUSS Procedures <https://www.aptech.com/blog/basics-of-gauss-procedures/>`_, `Basics of Optional Inputs to GAUSS Procedures <https://www.aptech.com/blog/the-basics-of-optional-arguments-in-gauss-procedures/>`_
+**Function reference**: :func:`asdf`, :func:`dynargsGet`, :func:`loadd`, :func:`ln`, :func:`trimr`
+
 Step Three: Plot data
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+.. figure:: _static/images/brooks-erfordersandp-xy.jpg
+   :scale: 50 %
+
+We can create the above plot with the following code:
 
 ::
 
@@ -162,6 +170,12 @@ Step Three: Plot data
     plotXY(data, "ersandp + erford ~ Date");
 
 
+
+.. figure:: _static/images/brooks-erfordersandp-scatter.jpg
+   :scale: 50 %
+
+The code below will create the above scatter plot.
+
 ::
 
     // Open a new graph window so we don't
@@ -178,6 +192,8 @@ Step Three: Plot data
     // Plot 'erford' vs 'ersandp' using a formula string
     plotScatter(plt, data, "erford ~ ersandp");
 
+
+**Function reference**: :func:`plotcanvassize`, :func:`plotgetdefaults`, :func:`plotOpenWindow`, :func:`plotScatter`, :func:`plotSetGrid`, :func:`plotSetTitle`, :func:`plotSetYLabel`
 
 Step Four: Compute regression
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -205,3 +221,4 @@ Step Four: Compute regression
     CONSTANT    -0.955984    0.793085     -1.2054     0.230       ---         ---   
     ersandp       1.88976     0.19162     9.86197     0.000    0.580862    0.580862
 
+**Function reference**: :func:`olsmt`
