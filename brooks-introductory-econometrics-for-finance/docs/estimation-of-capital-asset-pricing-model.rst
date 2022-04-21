@@ -55,6 +55,7 @@ To replicate this example, we will load the following variables:
 
 
 **Further reading**: `Data management guide <https://docs.aptech.com/gauss/data-management.html>`_
+
 **Function reference**: :func:`getGAUSSHome`, :func:`head`, :func:`loadd`
 
 Step Two: Transform data
@@ -114,6 +115,9 @@ We could just remove the call to :func:`packr` from the version of ``lnDiff`` in
        -3.0165414       -6.3384655
         9.8147061      -0.91229691
 
+
+We will finish our data preparation by computing the excess return of ``SandP`` and ``FORD`` and then combining all the variables into one dataframe named, ``data``.
+
 ::
 
     // Create a datframe with the excess return of 'SandP' and 'FORD', by
@@ -141,7 +145,11 @@ We could just remove the call to :func:`packr` from the version of ``lnDiff`` in
       2002-05-01        9.8147061      -0.91229691       0.14666667        9.6680394       -1.0589636
 
 
-**Further reading**: `Basics of GAUSS Procedures <https://www.aptech.com/blog/basics-of-gauss-procedures/>`_, `Basics of Optional Inputs to GAUSS Procedures <https://www.aptech.com/blog/the-basics-of-optional-arguments-in-gauss-procedures/>`_
+**Further reading**: 
+
+  * `Basics of GAUSS Procedures <https://www.aptech.com/blog/basics-of-gauss-procedures/>`_
+  * `Basics of Optional Inputs to GAUSS Procedures <https://www.aptech.com/blog/the-basics-of-optional-arguments-in-gauss-procedures/>`_
+
 **Function reference**: :func:`asdf`, :func:`dynargsGet`, :func:`loadd`, :func:`ln`, :func:`trimr`
 
 Step Three: Plot data
