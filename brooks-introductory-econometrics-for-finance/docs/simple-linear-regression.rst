@@ -1,4 +1,4 @@
-Chapter 2: Simple Linear Regression: Estimation of an Optimial Hedge Portfolio
+Chapter 2: Simple Linear Regression: Estimation of an Optimal Hedge Portfolio
 ================================================================================
 
 

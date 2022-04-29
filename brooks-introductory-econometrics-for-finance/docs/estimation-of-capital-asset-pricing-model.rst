@@ -146,6 +146,7 @@ We will finish our data preparation by computing the excess return of ``SandP`` 
 
 
 **Further reading**: 
+
 * `Basics of GAUSS Procedures <https://www.aptech.com/blog/basics-of-gauss-procedures/>`_
 * `Basics of Optional Inputs to GAUSS Procedures <https://www.aptech.com/blog/the-basics-of-optional-arguments-in-gauss-procedures/>`_
 
@@ -200,8 +201,7 @@ The code below will create the above scatter plot.
     plotScatter(plt, data, "erford ~ ersandp");
 
 
-**Further reading**:
-* `Basic GAUSS Graph Customization <https://www.aptech.com/resources/tutorials/basic-graph-with-programmatic-customization/>`_
+**Further reading**: `Basic GAUSS Graph Customization <https://www.aptech.com/resources/tutorials/basic-graph-with-programmatic-customization/>`_
 
 **Function reference**: :func:`plotcanvassize`, :func:`plotgetdefaults`, :func:`plotOpenWindow`, :func:`plotScatter`, :func:`plotSetGrid`, :func:`plotSetTitle`, :func:`plotSetYLabel`
 
