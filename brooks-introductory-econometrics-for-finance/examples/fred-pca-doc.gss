@@ -1,0 +1,89 @@
+new;
+cls;
+
+// Create path to data folder
+data_path = __FILE_DIR $+ "../data/";
+
+// Load all variables from file
+data = loadd(data_path $+ "fred90.dta");
+
+// Preview first 5 rows
+head(data);
+
+// Create a datframe that contains
+// the yields, but not the 'Date' variable
+yields = delcols(data, "Date");
+
+// Compute the means and standard
+// deviations for each variable
+mu = meanc(yields);
+sd = stdc(yields);
+
+// Subtract the mean and divide by
+// the standard deviation for each column
+yields_norm = (yields - mu') ./ sd';
+
+head(yields_norm);
+
+// Estimate the sample covariance matrix
+yields_cov = varCovXS(yields_norm);
+
+// Compute eigenvalues and eigenvectors
+// of the covariance matrix
+{ latent, coeff } = eighv(yields_cov);
+
+print "latent = " latent;
+print "coeff = " coeff;
+
+// Reverse the order of the eigenvalues
+latent = rev(latent);
+
+// Create the sequence 6, 5, 4,..1
+rev_idx = seqa(cols(coeff), -1, cols(coeff));
+coeff = coeff[.,rev_idx];
+
+print "latent = " latent;
+print "coeff = " coeff;
+
+headers = getcolnames(yields);
+coeff = setcolnames(coeff', headers);
+
+print coeff;
+
+perc_lat = latent ./ sumc(latent);
+cum_perc_lat = cumsumc(latent) ./ sumc(latent); 
+
+// Set total size for both graphic panels
+plotCanvasSize("px", 800|400);
+
+// Declare 'plt' to be a plotControl structure
+struct plotControl plt;
+
+// Create the series 1, 2, 3,...6
+component_idx = seqa(1, 1, rows(perc_lat));
+
+// Split the graph canvas into a 1x2 grid and
+// place the next graph in the first location
+plotLayout(1,2,1);
+
+// Fill the plotControl structure with default values
+plt = plotGetDefaults("bar");
+
+plotSetYLabel(&plt, "Cumulative percentage of eigenvalues", "arial", 14);
+plotSetXLabel(&plt, "Principal component");
+
+plotBar(plt, component_idx, cum_perc_lat);
+
+// Split the graph canvas into a 1x2 grid and
+// place the next graph in the second location
+plotLayout(1,2,2);
+
+plt = plotGetDefaults("xy");
+
+plotSetYLabel(&plt, "Percentage of eigenvalues", "arial", 14);
+plotSetXLabel(&plt, "Principal component");
+
+// Fill the plotControl structure with default values
+plotXY(plt, component_idx, perc_lat);
+
+
