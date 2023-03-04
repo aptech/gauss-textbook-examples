@@ -33,11 +33,11 @@ To replicate this example, we will load the following variables:
 
 ::
 
-    // Create path to data folder
-    data_path = __FILE_DIR $+ "../data/";
+    // Create file name with full path
+    data_set = getGAUSSHome() $+ "pkgs/BrooksEcoFinLib/examples/fred90.dta";
    
     // Load all variables from file
-    data = loadd(data_path $+ "fred90.dta");
+    data = loadd(data_set);
 
     // Preview first 5 rows
     head(data);
@@ -54,14 +54,16 @@ To replicate this example, we will load the following variables:
 
 **Further reading**: `Data management guide <https://docs.aptech.com/gauss/data-management.html>`_
 
-**Function reference**: :func:`_\_FILE\_DIR`, :func:`head`, :func:`loadd`
+**Function reference**: :func:`getGAUSSHome`, :func:`getgausshome`, :func:`head`, :func:`loadd`
 
 Step Two: Normalize the variables
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 We need to normalize the variables by subtracting the means from each variable and dividing by the standard deviation. We will break this into several lines of code so you can look at some of the intermediate calculations.
 
-The return values from ``stdc`` and ``meanc`` will be 6x1 column vectors. For us to be able to perform the element-by-element subtraction and division between ``yields`` and these intermediate computations,  we need them to have the same number of columns as ``yields``. That is why we transpose them on the line that creates ``yields_norm``.
+The return values from :func:`stdc` and :func:`meanc` will be 6x1 column vectors. For us to be able to perform the element-by-element subtraction between the six elements of ``mu`` and the corresponding columns of ``yields``,  we need ``mu`` to have the same number of columns as ``yields``. That is why we transpose ``mu`` (and ``sd``) on the line that creates ``yields_norm``.
+
+.. note: The GAUSS :func:`rescale` function is a more efficient way to scale your variables.
 
 ::
 
@@ -89,6 +91,8 @@ The return values from ``stdc`` and ``meanc`` will be 6x1 column vectors. For us
      2.2320   2.2405   2.2451   2.2271   2.1813   2.1788
      2.2192   2.2068   2.2113   2.1881   2.1675   2.1631
 
+
+**Further reading**: `Element-by-element operations in GAUSS (YouTube) <https://www.aptech.com/blog/gauss-basics-5-element-by-element-conformability/>`_
 
 **Function reference**: :func:`delcols`, :func:`meanc`, :func:`stdc`
 
@@ -139,7 +143,7 @@ The eigenvalues and the corresponding columns of the eigenvector matrix are orde
     // Reverse the order of the eigenvalues
     latent = rev(latent);
    
-    // Create the sequence 6, 5, 4,..1
+    // Create the sequence 6, 5, 4,...1
     rev_idx = seqa(cols(coeff), -1, cols(coeff));
     coeff = coeff[.,rev_idx];
    
@@ -163,7 +167,7 @@ The eigenvalues and the corresponding columns of the eigenvector matrix are orde
       0.3962   0.6700   0.5200  -0.2943  -0.1732  -0.0848
 
 
-Now each column is a different component vector. The elements in the rows of these vectors contain the weights for the corresponding variables. Next we will transpose the eigenvector matrix and add the variable names to the columns to make the output easier to interpret.
+Each column of the eigenvector matrix is a different component vector. The elements in the rows of these vectors contain the weights for the corresponding variables. To make intepretation more clear, we will transpose the eigenvector matrix and add the variable names to the columns.
 
 ::
 
@@ -200,14 +204,38 @@ We can compute the percent and cumulative percent of variance explained like thi
                0.000024                  1.000000
 
 
-**Function reference**: :func:`cols`, :func:`cumsumc`, :func:`getcolnames`, :func:`rev`, :func:`seqaseqm`, :func:`setcolnames`, :func:`sumc`
+To make it even more clear, we will add the ``perc_lat`` variable to the front of the eigenvector matrix.
+
+::
+
+    // Convert 'perc_lat' to be a dataframe
+    // with the column name 'VARIANCE'
+    variance = asdf(perc_lat, "VARIANCE");
+    
+    // Use the horizontal contatenation operator
+    // '~' to add variance to the front of coeff
+    coeff = variance ~ coeff;
+    
+    print coeff;
+
+::
+    
+    VARIANCE     GS3M     GS6M      GS1      GS3      GS5     GS10 
+      0.9653   0.4078   0.4092   0.4117   0.4144   0.4099   0.3962 
+      0.0326  -0.4165  -0.3910  -0.2938   0.0903   0.3609   0.6700 
+      0.0017   0.4677   0.1540  -0.2281  -0.5890  -0.2970   0.5200 
+      0.0003   0.5395  -0.1919  -0.6255   0.1519   0.4139  -0.2943 
+      0.0001  -0.3070   0.5065  -0.0821  -0.5250   0.5804  -0.1732 
+      0.0000   0.2371  -0.6021   0.5424  -0.4177   0.3246  -0.0848
+
+**Function reference**: :func:`asdf`, :func:`cols`, :func:`cumsumc`, :func:`getcolnames`, :func:`rev`, :func:`seqa`, :func:`setcolnames`, :func:`sumc`
 
 Step Five: Plot the results
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Finally we will plot the explained variance for each principal component.
 
-.. figure:: _static/images/brooks-erfordersandp-xy.jpg
+.. figure:: _static/images/brooks-pca-explained-variance.jpg
    :scale: 50 %
 
 ::
@@ -249,5 +277,4 @@ Finally we will plot the explained variance for each principal component.
 
 **Further reading**:
 
-* `Basics of GAUSS Procedures <https://www.aptech.com/blog/basics-of-gauss-procedures/>`_
-* `Basics of Optional Inputs to GAUSS Procedures <https://www.aptech.com/blog/the-basics-of-optional-arguments-in-gauss-procedures/>`_
+* `GAUSS graphics blog posts <https://www.aptech.com/blog/category/graphics//>`_

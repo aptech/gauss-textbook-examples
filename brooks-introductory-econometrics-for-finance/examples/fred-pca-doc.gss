@@ -53,6 +53,16 @@ print coeff;
 perc_lat = latent ./ sumc(latent);
 cum_perc_lat = cumsumc(latent) ./ sumc(latent); 
 
+// Convert 'perc_lat' to be a dataframe
+// with the column name 'VARIANCE'
+variance = asdf(perc_lat, "VARIANCE");
+
+// Use the horizontal contatenation operator
+// '~' to add variance to the front of coeff
+coeff = variance ~ coeff;
+
+print coeff;
+ 
 // Set total size for both graphic panels
 plotCanvasSize("px", 800|400);
 
