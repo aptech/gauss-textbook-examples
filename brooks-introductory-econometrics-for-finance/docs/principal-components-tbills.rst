@@ -54,7 +54,7 @@ To replicate this example, we will load the following variables:
 
 **Further reading**: `Data management guide <https://docs.aptech.com/gauss/data-management.html>`_
 
-**Function reference**: :func:`getGAUSSHome`, :func:`getgausshome`, :func:`head`, :func:`loadd`
+**Function reference**: :func:`getgausshome`, :func:`head`, :func:`loadd`
 
 Step Two: Normalize the variables
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -145,7 +145,7 @@ The eigenvalues and the corresponding columns of the eigenvector matrix are orde
    
     // Create the sequence 6, 5, 4,...1
     rev_idx = seqa(cols(coeff), -1, cols(coeff));
-    coeff = coeff[.,rev_idx];
+    coeff = coeff[., rev_idx];
    
     print latent;
     print coeff;
@@ -186,6 +186,11 @@ Each column of the eigenvector matrix is a different component vector. The eleme
      -0.3070   0.5065  -0.0821  -0.5250   0.5804  -0.1732
       0.2371  -0.6021   0.5424  -0.4177   0.3246  -0.0848
 
+**Function reference**: :func:`cols`, :func:`getcolnames`, :func:`rev`, :func:`seqa`, :func:`setcolnames`
+
+Step Five: Compute the variance explained
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 We can compute the percent and cumulative percent of variance explained like this:
 
 ::
@@ -204,7 +209,7 @@ We can compute the percent and cumulative percent of variance explained like thi
                0.000024                  1.000000
 
 
-To make it even more clear, we will add the ``perc_lat`` variable to the front of the eigenvector matrix.
+To make interpretation even more clear, we will add the ``perc_lat`` variable to the front of the eigenvector matrix.
 
 ::
 
@@ -228,9 +233,9 @@ To make it even more clear, we will add the ``perc_lat`` variable to the front o
       0.0001  -0.3070   0.5065  -0.0821  -0.5250   0.5804  -0.1732 
       0.0000   0.2371  -0.6021   0.5424  -0.4177   0.3246  -0.0848
 
-**Function reference**: :func:`asdf`, :func:`cols`, :func:`cumsumc`, :func:`getcolnames`, :func:`rev`, :func:`seqa`, :func:`setcolnames`, :func:`sumc`
+**Function reference**: :func:`asdf`, :func:`cumsumc`, :func:`sumc`
 
-Step Five: Plot the results
+Step Six: Plot the results
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Finally we will plot the explained variance for each principal component.
