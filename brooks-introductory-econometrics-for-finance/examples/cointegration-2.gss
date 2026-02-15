@@ -1,0 +1,34 @@
+new;
+cls;
+library tsmt;
+
+/*
+** Example 2: VAR with Cointegration Diagnostics
+** Brooks Chapter 8 - Comprehensive cointegration analysis
+*/
+
+// Create path to data folder
+data_file = __FILE_DIR $+ "../raw data/macro.dta";
+
+// Load the data
+macro = loadd(data_file);
+
+// Extract interest rate series
+ustb3m = packr(macro[., "USTB3M"]);
+ustb10y = packr(macro[., "USTB10Y"]);
+
+// Combine for VAR
+y = ustb3m ~ ustb10y;
+
+print "VAR(2) Model with Cointegration Diagnostics";
+print "============================================";
+print "";
+
+// Estimate VAR(2) - produces comprehensive output including:
+// - Unit root tests (ADF and Phillips-Perron)
+// - Cointegration tests (Engle-Granger and Johansen)
+// - Characteristic roots
+// - Multivariate ACF and goodness-of-fit tests
+
+struct varmamtOut vmo;
+vmo = varmaFit(y, 2);

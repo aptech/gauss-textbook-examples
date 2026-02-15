@@ -1,0 +1,47 @@
+new;
+cls;
+library tsmt;
+
+/*
+** Example 2: VAR Lag Order Selection
+** Brooks Chapter 7 - Comparing VAR specifications
+*/
+
+// Create path to data folder
+data_file = __FILE_DIR $+ "../raw data/macro.dta";
+
+// Load the data
+macro = loadd(data_file);
+
+// Extract macro variables
+rsandp = packr(macro[., "rsandp"]);
+inflation = packr(macro[., "inflation"]);
+dprod = packr(macro[., "dprod"]);
+
+// Combine variables
+y = rsandp ~ inflation ~ dprod;
+
+print "VAR Lag Order Selection";
+print "=======================";
+print "";
+print "Estimating VAR models with different lag orders...";
+print "";
+
+// Estimate with different lags
+struct varmamtOut v1, v2, v3, v4;
+
+v1 = varmaFit(y, 1);
+v2 = varmaFit(y, 2);
+v3 = varmaFit(y, 3);
+v4 = varmaFit(y, 4);
+
+print "";
+print "Information Criteria Comparison";
+print "================================";
+print "Lags     AIC          SBC";
+print "1    " v1.aic "    " v1.sbc;
+print "2    " v2.aic "    " v2.sbc;
+print "3    " v3.aic "    " v3.sbc;
+print "4    " v4.aic "    " v4.sbc;
+print "";
+print "Select model with lowest AIC or SBC value.";

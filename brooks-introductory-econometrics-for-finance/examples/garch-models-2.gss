@@ -1,0 +1,57 @@
+new;
+cls;
+library tsmt;
+
+/*
+** Example 2: GARCH with Alternative Distributions
+** Brooks Chapter 9 - Student's t distribution
+*/
+
+// Create path to data folder
+data_file = __FILE_DIR $+ "../raw data/macro.dta";
+
+// Load the data
+macro = loadd(data_file);
+
+// Extract S&P 500 returns
+rsandp = packr(macro[., "rsandp"]);
+
+print "GARCH Model Comparison: Normal vs Student's t";
+print "==============================================";
+print "";
+
+// GARCH(1,1) with normal distribution (default)
+print "Estimating GARCH(1,1) with Normal distribution...";
+struct garchEstimation gOut_norm;
+gOut_norm = garchFit(rsandp, 1, 1);
+
+print "";
+print "AIC (Normal): " gOut_norm.aic;
+print "BIC (Normal): " gOut_norm.bic;
+print "";
+
+// Create control structure for t-distribution
+struct garchControl gctl;
+gctl = garchControlCreate();
+
+// Set density = 1 for Student's t distribution
+gctl.density = 1;
+
+// GARCH(1,1) with Student's t distribution
+print "Estimating GARCH(1,1) with Student's t distribution...";
+struct garchEstimation gOut_t;
+gOut_t = garchFit(rsandp, 1, 1, gctl);
+
+print "";
+print "AIC (Student's t): " gOut_t.aic;
+print "BIC (Student's t): " gOut_t.bic;
+print "";
+
+// GARCH-in-Mean
+print "Estimating GARCH-M(1,1)...";
+struct garchEstimation gOut_m;
+gOut_m = garchMFit(rsandp, 1, 1);
+
+print "";
+print "AIC (GARCH-M): " gOut_m.aic;
+print "BIC (GARCH-M): " gOut_m.bic;

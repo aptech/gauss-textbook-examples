@@ -1,0 +1,70 @@
+new;
+cls;
+library tsmt;
+
+/*
+** Example 1: Cointegration of Interest Rates
+** Brooks Chapter 8 - Modelling Long-Run Relationships
+*/
+
+// Create path to data folder
+data_file = __FILE_DIR $+ "../raw data/macro.dta";
+
+// Load the data
+macro = loadd(data_file);
+
+// Extract interest rate series
+ustb3m = packr(macro[., "USTB3M"]);
+ustb10y = packr(macro[., "USTB10Y"]);
+
+print "Interest Rate Data";
+print "==================";
+print "3-Month T-Bill mean:  " meanc(ustb3m);
+print "10-Year T-Bond mean:  " meanc(ustb10y);
+print "Observations:         " rows(ustb3m);
+print "";
+
+// Test for unit roots
+print "DF-GLS Test for 3-Month T-Bill";
+print "==============================";
+{ tstat3m, crit3m } = dfgls(ustb3m, 12, 0);
+
+print "";
+print "DF-GLS Test for 10-Year T-Bond";
+print "==============================";
+{ tstat10y, crit10y } = dfgls(ustb10y, 12, 0);
+
+print "";
+
+// Engle-Granger cointegration test
+print "Engle-Granger Cointegration Test";
+print "=================================";
+{ alpha, tstat, crit } = vmcadfmt(ustb10y, ustb3m, 0, 4);
+
+print "";
+print "ADF test on cointegrating residuals";
+print "Alpha (autoregressive parameter): " alpha;
+print "t-statistic:                      " tstat;
+print "";
+print "Critical values (1%, 5%, 10%):";
+print crit[1:3]';
+print "";
+
+// Johansen cointegration test
+y = ustb3m ~ ustb10y;
+
+print "Johansen Cointegration Test";
+print "===========================";
+{ ev, evec, lr1, lr2 } = vmsjmt(y, 0, 2, 0);
+
+print "";
+print "Eigenvalues:";
+print ev';
+print "";
+print "Trace Statistics:";
+print "H0: r=0  " lr1[1];
+print "H0: r<=1 " lr1[2];
+print "";
+print "Maximum Eigenvalue Statistics:";
+print "H0: r=0  " lr2[1];
+print "H0: r<=1 " lr2[2];

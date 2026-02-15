@@ -1,0 +1,49 @@
+new;
+cls;
+library tsmt;
+
+/*
+** Example 1: VAR Model for Macro Variables
+** Brooks Chapter 7 - Multivariate Models
+*/
+
+// Create path to data folder
+data_file = __FILE_DIR $+ "../raw data/macro.dta";
+
+// Load the data
+macro = loadd(data_file);
+
+// Extract macro variables
+rsandp = packr(macro[., "rsandp"]);
+inflation = packr(macro[., "inflation"]);
+dprod = packr(macro[., "dprod"]);
+
+print "Macro Variables for VAR";
+print "=======================";
+print "S&P Returns:      " rows(rsandp) " obs, mean = " meanc(rsandp);
+print "Inflation:        " rows(inflation) " obs, mean = " meanc(inflation);
+print "Ind. Production:  " rows(dprod) " obs, mean = " meanc(dprod);
+print "";
+
+// Combine variables into matrix
+y = rsandp ~ inflation ~ dprod;
+
+// Estimate VAR(2) model
+print "Estimating VAR(2)...";
+print "";
+
+struct varmamtOut vmo;
+vmo = varmaFit(y, 2);
+
+print "";
+print "Forecasting 6 periods ahead...";
+print "";
+
+// Forecast 6 periods
+// varmaPredict(vmo, y, x, t)
+// x = 0 for no exogenous variables
+fcst = varmaPredict(vmo, y, 0, 6);
+
+print "Forecasts:";
+print "Period   rsandp   inflation   dprod";
+print fcst;

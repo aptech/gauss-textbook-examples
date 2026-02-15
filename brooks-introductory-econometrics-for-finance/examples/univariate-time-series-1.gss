@@ -1,0 +1,71 @@
+new;
+cls;
+library tsmt;
+
+/*
+** Example 1: ARIMA Modelling of UK House Prices
+** Brooks Chapter 6 - Box-Jenkins approach
+*/
+
+// Create path to data folder
+data_file = __FILE_DIR $+ "../raw data/ukhp.dta";
+
+// Load the data
+data = loadd(data_file);
+
+// Preview the data
+print "UK House Price Data";
+print "===================";
+head(data);
+print "";
+
+// Extract house price series
+hp = data[., "hp"];
+
+// Step 1: Test for stationarity using DF-GLS
+print "DF-GLS Test for House Prices (Level)";
+print "=====================================";
+{ tstat, crit } = dfgls(hp, 12, 1);
+print "";
+
+// Test the differenced series
+dhp = packr(data[., "dhp"]);
+
+print "DF-GLS Test for House Prices (Differenced)";
+print "===========================================";
+{ tstat_d, crit_d } = dfgls(dhp, 12, 0);
+print "";
+
+// Step 2: ACF/PACF for model identification
+plotOpenWindow();
+plotACF(dhp, 20);
+
+plotOpenWindow();
+plotPACF(dhp, 20);
+
+// Step 3: Estimate AR(2) on differenced series
+// (equivalent to ARIMA(2,1,0) on levels)
+print "Estimating AR(2) model on differenced series...";
+print "";
+
+struct arimamtOut amo;
+amo = arimaFit(dhp, 2, 0, 0);
+
+// Step 4: Diagnostic checking
+print "";
+print "Residual Diagnostics";
+print "====================";
+residuals = amo.e;
+print "Mean:      " meanc(residuals);
+print "Std Dev:   " stdc(residuals);
+print "";
+
+// Plot residual ACF
+plotOpenWindow();
+plotACF(residuals, 20);
+
+// Step 5: Forecasting
+print "6-Step Ahead Forecasts";
+print "======================";
+forecasts = arimaPredict(amo, dhp, 6);
+print forecasts;

@@ -1,0 +1,65 @@
+new;
+cls;
+library tsmt;
+
+/*
+** Example 1: GARCH Modelling of S&P 500 Returns
+** Brooks Chapter 9 - Modelling Volatility
+*/
+
+// Create path to data folder
+data_file = __FILE_DIR $+ "../raw data/macro.dta";
+
+// Load the data
+macro = loadd(data_file);
+
+// Extract S&P 500 returns
+rsandp = packr(macro[., "rsandp"]);
+
+print "S&P 500 Returns";
+print "===============";
+print "Observations: " rows(rsandp);
+print "Mean:         " meanc(rsandp);
+print "Std Dev:      " stdc(rsandp);
+print "Skewness:     " skewness(rsandp);
+print "Kurtosis:     " kurtosis(rsandp);
+print "";
+
+// Plot returns
+plotCanvasSize("px", 800|400);
+
+struct plotControl plt;
+plt = plotGetDefaults("xy");
+
+plotSetTitle(&plt, "S&P 500 Monthly Returns");
+plotSetYLabel(&plt, "Return (%)");
+
+plotXY(plt, seqa(1, 1, rows(rsandp)), rsandp);
+
+// Estimate GARCH(1,1) model
+print "Estimating GARCH(1,1)...";
+print "";
+
+struct garchEstimation gOut;
+gOut = garchFit(rsandp, 1, 1);
+
+print "";
+print "Model Fit Statistics";
+print "====================";
+print "AIC: " gOut.aic;
+print "BIC: " gOut.bic;
+print "";
+
+// Estimate GJR-GARCH(1,1) for asymmetric effects
+print "Estimating GJR-GARCH(1,1)...";
+print "";
+
+struct garchEstimation gOut_gjr;
+gOut_gjr = garchGJRFit(rsandp, 1, 1);
+
+print "";
+print "Model Comparison";
+print "================";
+print "                      AIC           BIC";
+print "GARCH(1,1):     " gOut.aic "  " gOut.bic;
+print "GJR-GARCH(1,1): " gOut_gjr.aic "  " gOut_gjr.bic;

@@ -1,0 +1,57 @@
+new;
+cls;
+library tsmt;
+
+/*
+** Example 2: ARMA Model for S&P 500 Returns
+** Brooks Chapter 6 - Model comparison using information criteria
+*/
+
+// Create path to data folder
+data_file = __FILE_DIR $+ "../raw data/macro.dta";
+
+// Load the macro data
+macro = loadd(data_file);
+
+// Extract S&P 500 returns
+rsandp = packr(macro[., "rsandp"]);
+
+print "S&P 500 Returns";
+print "===============";
+print "Observations: " rows(rsandp);
+print "Mean:         " meanc(rsandp);
+print "Std Dev:      " stdc(rsandp);
+print "";
+
+// Verify stationarity
+print "DF-GLS Test for S&P 500 Returns";
+print "================================";
+{ tstat, crit } = dfgls(rsandp, 12, 0);
+print "";
+
+// Estimate and compare multiple ARMA specifications
+print "Model Comparison";
+print "================";
+
+// AR(1)
+struct arimamtOut amo_ar1;
+amo_ar1 = arimaFit(rsandp, 1, 0, 0);
+print "AR(1):      AIC = " amo_ar1.aic "  BIC = " amo_ar1.sbc;
+
+// AR(2)
+struct arimamtOut amo_ar2;
+amo_ar2 = arimaFit(rsandp, 2, 0, 0);
+print "AR(2):      AIC = " amo_ar2.aic "  BIC = " amo_ar2.sbc;
+
+// MA(1)
+struct arimamtOut amo_ma1;
+amo_ma1 = arimaFit(rsandp, 0, 0, 1);
+print "MA(1):      AIC = " amo_ma1.aic "  BIC = " amo_ma1.sbc;
+
+// ARMA(1,1)
+struct arimamtOut amo_arma11;
+amo_arma11 = arimaFit(rsandp, 1, 0, 1);
+print "ARMA(1,1):  AIC = " amo_arma11.aic "  BIC = " amo_arma11.sbc;
+
+print "";
+print "Select model with lowest AIC/BIC values.";
