@@ -23,21 +23,24 @@ Getting Started
 To run this example you will need:
 
 * The GAUSS Time Series package installed
-* The BrooksEconFinLib package with the example data
+* The example files for this book: the programs in the ``examples`` folder
+  and the data in the ``raw data`` folder next to it
 
 
 Step One: Load and examine the data
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-First, we load the S&P 500 returns and examine their properties.
+First, we load the S&P 500 returns and examine their properties. The program
+``garch-models-1.gss`` in the ``examples`` folder loads ``macro.dta`` from the
+``raw data`` folder next to it.
 
 ::
 
     // Load the Time Series library
     library timeseries;
 
-    // Create file name with full path
-    data_file = getGAUSSHome() $+ "pkgs/BrooksEcoFinLib/examples/macro.dta";
+    // Create path to data folder
+    data_file = __FILE_DIR $+ "../raw data/macro.dta";
 
     // Load the data
     macro = loadd(data_file);
@@ -163,7 +166,7 @@ The parameter table adds ``gamma1``:
               gamma1    -0.0030674072      0.061930889       0.11006744       0.97776708      -0.21879563       0.21266081
                beta1       0.83640457      0.033099893      0.042649342    1.2408223e-85       0.75281339       0.91999574
 
-The ``gamma1`` coefficient (-0.003, robust p-value 0.98) shows no asymmetry in this sample: negative and positive shocks of the same size raise next month's volatility by about the same amount. A positive and significant ``gamma1`` would indicate a leverage effect.
+The ``gamma1`` coefficient (-0.003, robust p-value 0.98) gives no evidence of asymmetry in this sample: no evidence that negative shocks raise next month's volatility more than positive shocks of the same size. A positive and significant ``gamma1`` would indicate a leverage effect.
 
 
 Step Five: Compare models
@@ -221,7 +224,7 @@ The parameter table adds ``df``:
     Student's t          -1067.8443    2145.6886    2165.4418
     Degrees of freedom of the t fit: 6.15
 
-With 6.1 degrees of freedom the *t* distribution has much fatter tails than the normal, and the log likelihood rises by 14.5 for the one extra parameter; both AIC and BIC prefer the *t* errors. The full program, ``garch-models-2.gss``, prints both summaries and this table.
+With 6.1 degrees of freedom the *t* distribution has much fatter tails than the normal, and the log likelihood rises by 14.5 for the one extra parameter; both AIC and BIC prefer the *t* errors. The *df* p-value tests *df* = 0, which is outside the allowed range, so it is not a standard test; the same holds for the p-values of ``omega``, ``alpha1`` and ``beta1``, which test a value on their lower bound of 0. The full program, ``garch-models-2.gss``, prints both summaries and this table.
 
 
 Example 3: GARCH-in-Mean for Risk Premium (TSMT 4.1)
