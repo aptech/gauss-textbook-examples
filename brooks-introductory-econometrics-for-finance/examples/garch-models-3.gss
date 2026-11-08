@@ -1,0 +1,25 @@
+new;
+cls;
+library tsmt;
+
+/*
+** Example 3: GARCH-in-mean (TSMT 4.1)
+** Brooks Chapter 9 - Risk premium
+**
+** This example uses TSMT 4.1 (library tsmt). GARCH-in-mean is not in the
+** GAUSS 27.0 Time Series package; it is planned for a later 27.x release.
+** Do not load library timeseries in the same program.
+*/
+
+// Create path to data folder
+data_file = __FILE_DIR $+ "../raw data/macro.dta";
+
+// Load the data
+macro = loadd(data_file);
+
+// Extract S&P 500 returns
+rsandp = packr(macro[., "rsandp"]);
+
+// GARCH-M(1,1): the conditional standard deviation enters the mean
+struct garchEstimation gOut_m;
+gOut_m = garchMFit(rsandp, 1, 1);
